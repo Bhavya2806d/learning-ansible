@@ -3,13 +3,18 @@
   hosts: all
   become: yes
   tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
     - name: Install nginx
       apt:
         name: nginx
         state: present
-        update_cache: yes
 
-    - name: Start nginx
-      shell: systemctl start nginx
-
+    - name: Start and enable nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
 
